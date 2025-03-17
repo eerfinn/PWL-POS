@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <title>Form Tambah Data User</title>
 </head>
+
 <body>
     <h1>Form Tambah Data User</h1>
     <form method="POST" action="/user/tambah_simpan">
-        
+
         {{ csrf_field() }}
-        
+
         <label>Username</label>
         <input type="text" name="username" placeholder="Masukan Username">
         <br>
@@ -22,7 +24,8 @@
         <input type="number" name="level_id" placeholder="Masukan ID Level">
         <br><br>
         <input type="submit" class="btn btn-success" value="Simpan">
-        
+
     </form>
 </body>
+
 </html>
