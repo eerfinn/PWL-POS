@@ -1,31 +1,55 @@
-<!DOCTYPE html>
-<html lang="en">
+{{-- filepath: c:\laragon\www\PWL_POS\resources\views\user\user_tambah.blade.php --}}
+@extends('adminlte::page')
 
-<head>
-    <title>Form Tambah Data User</title>
-</head>
+@section('title', 'Tambah User')
 
-<body>
-    <h1>Form Tambah Data User</h1>
-    <form method="POST" action="/user/tambah_simpan">
+@section('content_header')
+    <h1>Tambah User</h1>
+@stop
 
-        {{ csrf_field() }}
+@section('content')
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Form Tambah User</h3>
+                </div>
+                <div class="card-body">
+                    <form action="{{ url('/user/tambah_simpan') }}" method="POST">
+                        @csrf
+                        <div class="form-group">
+                            <label>Username</label>
+                            <input type="text" class="form-control" name="username" placeholder="Masukan Username"
+                        </div>
+                        <div class="form-group">
+                            <label>Nama</label>
+                            <input type="text" class="form-control" name="nama" placeholder="Masukan Nama">
+                        </div>
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input type="password" class="form-control" name="password" placeholder="Masukan Password">
+                        </div>
+                        <div class="form-group">
+                            <label>Level ID</label>
+                            <input type="number" class="form-control" name="level_id" placeholder="Masukan Level ID">
+                        </div>
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-primary">Simpan</button>
+                            <a href="{{ url('/user') }}" class="btn btn-secondary">Kembali</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+@stop
 
-        <label>Username</label>
-        <input type="text" name="username" placeholder="Masukan Username">
-        <br>
-        <label>Nama</label>
-        <input type="text" name="nama" placeholder="Masukan Nama">
-        <br>
-        <label>Password</label>
-        <input type="password" name="password" placeholder="Masukan Password">
-        <br>
-        <label>Level ID</label>
-        <input type="number" name="level_id" placeholder="Masukan ID Level">
-        <br><br>
-        <input type="submit" class="btn btn-success" value="Simpan">
+@section('css')
+    <link rel="stylesheet" href="/css/admin_custom.css">
+@stop
 
-    </form>
-</body>
-
-</html>
+@section('js')
+    <script>
+        console.log('Halaman Tambah User dimuat');
+    </script>
+@stop

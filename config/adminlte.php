@@ -316,6 +316,11 @@ return [
             'text' => 'search',
         ],
         [
+            'text' => 'Manage User',
+            'url'  => 'user',
+            'icon' => 'fas fa-users',
+        ],
+        [
             'text' => 'Manage Kategori',
             'url'  => 'kategori',
             'icon' => 'fas fa-tags',

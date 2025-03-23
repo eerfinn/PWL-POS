@@ -6,18 +6,18 @@ use App\Models\User;
 use App\Models\UserModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use App\DataTables\UserDataTable;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index(UserDataTable $dataTable)
     {
-        $user = UserModel::with('level')->get();
-        return view('user', ['data' => $user]);
+        return $dataTable->render('user.user');
     }
 
     public function tambah()
     {
-        return view('user_tambah');
+        return view('user.user_tambah');
     }
 
     public function tambah_simpan(Request $request)
@@ -36,7 +36,7 @@ class UserController extends Controller
     public function ubah($id)
     {
         $user = UserModel::find($id);
-        return view('user_ubah', ['data' => $user]);
+        return view('user.user_ubah', ['data' => $user]);
     }
 
     public function ubah_simpan($id, Request $request)
