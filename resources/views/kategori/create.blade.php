@@ -43,8 +43,9 @@
                         <input type="text" class="form-control @error('kategori_nama') is-invalid @enderror" 
                                id="namaKategori" name="kategori_nama" placeholder="Nama Kategori"
                                value="{{ old('kategori_nama') }}">
+                               
                         @error('kategori_nama')
-                            <div class="invalid-feedback">{{ $message }}</div>
+                            <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
                     </div>
                 </div>
