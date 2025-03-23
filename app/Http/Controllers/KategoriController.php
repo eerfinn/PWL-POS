@@ -22,9 +22,9 @@ class KategoriController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
-        $validated = $request->validateWithBag([
-            'kategori_kode' => ['required, unique:m_kategori, max:10'],
-            'kategori_nama' => ['required, max:100'],
+        $validated = $request->validate([
+            'kategori_kode' => 'bail|required|unique:m_kategori,kategori_kode|max:10',
+            'kategori_nama' => 'bail|required|max:5',
         ]);
 
         KategoriModel::create([

@@ -30,13 +30,14 @@
                 <div class="card-body">
                     <div class="form-group">
                         <label for="kodeKategori">Kode Kategori</label>
-                        <input type="text" class="form-control @error('kategori_kode') is-invalid @enderror" 
-                               id="kodeKategori" name="kategori_kode" placeholder="Kode Kategori" 
-                               value="{{ old('kategori_kode') }}">
+                        <input type="text" name="kategori_kode" class="@error('kategori_kode') is-invalid @enderror form-control"
+                        placeholder="Kode Kategori">
+
                         @error('kategori_kode')
-                            <div class="invalid-feedback">{{ $message }}</div>
+                            <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
                     </div>
+
                     <div class="form-group">
                         <label for="namaKategori">Nama Kategori</label>
                         <input type="text" class="form-control @error('kategori_nama') is-invalid @enderror" 
