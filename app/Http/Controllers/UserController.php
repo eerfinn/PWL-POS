@@ -7,6 +7,9 @@ use App\Models\UserModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\DataTables\UserDataTable;
+use App\Http\Requests\StoreUserRequest;
+use Illuminate\Auth\Events\Validated;
+use Illuminate\Http\RedirectResponse;
 
 class UserController extends Controller
 {
@@ -20,17 +23,19 @@ class UserController extends Controller
         return view('user.user_tambah');
     }
 
-    public function tambah_simpan(Request $request)
+    public function tambah_simpan(StoreUserRequest $request): RedirectResponse
     {
+        $validated = $request->validated();
 
-        UserModel::create([
-            'username' => $request->username,
-            'nama' => $request->nama,
-            'password' => Hash::make($request->password),
-            'level_id' => $request->level_id
-        ]);
+        // Data sudah divalidasi oleh StoreUserRequest
+        (UserModel::create([
+            'username' => $validated['username'],
+            'nama' => $validated['nama'],
+            'password' => Hash::make($validated['password']),
+            'level_id' => $validated['level_id'],
+        ]));
 
-        return redirect('/user');
+        return redirect('/user')->with('success', 'User berhasil ditambahkan.');
     }
 
     public function ubah($id)
