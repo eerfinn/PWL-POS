@@ -326,6 +326,11 @@ return [
             'icon' => 'fas fa-tags',
         ],
         [
+            'text' => 'Manage Level',
+            'url'  => 'level',
+            'icon' => 'fas fa-layer-group',
+        ],
+        [
             'text' => 'blog',
             'url' => 'admin/blog',
             'can' => 'manage-blog',

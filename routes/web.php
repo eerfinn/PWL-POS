@@ -22,18 +22,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/level', [LevelController::class, 'index']);
-
 Route::get('/kategori', [KategoriController::class, 'index']);
-Route::get('/kategori/create', [KategoriController::class, 'create']);
 Route::post('/kategori', [KategoriController::class, 'store']);
-
-
-Route::get('/kategori/{id}/edit', [KategoriController::class, 'edit']);
+Route::get('/kategori/create', [KategoriController::class, 'create']);
 Route::put('/kategori/{id}', [KategoriController::class, 'update']);
-
-
 Route::delete('/kategori/{id}', [KategoriController::class, 'destroy']);
+Route::get('/kategori/{id}/edit', [KategoriController::class, 'edit']);
 
 Route::get('/user', [UserController::class, 'index']);
 Route::get('/user/tambah', [UserController::class, 'tambah']);
@@ -42,7 +36,9 @@ Route::get('/user/ubah/{id}', [UserController::class, 'ubah']);
 Route::put('/user/ubah_simpan/{id}', [UserController::class, 'ubah_simpan']);
 Route::delete('/user/hapus/{id}', [UserController::class, 'hapus']);
 
-Auth::routes();
-
-Route::get('/home', [HomeController::class, 'index'])->name('home');
-
+Route::get('/level', [LevelController::class, 'index']);
+Route::get('/level/tambah', [LevelController::class, 'tambah']);
+Route::post('/level/tambah_simpan', [LevelController::class, 'tambah_simpan']);
+Route::get('/level/ubah/{id}', [LevelController::class, 'ubah']);
+Route::put('/level/ubah_simpan/{id}', [LevelController::class, 'ubah_simpan']);
+Route::delete('/level/hapus/{id}', [LevelController::class, 'hapus']);

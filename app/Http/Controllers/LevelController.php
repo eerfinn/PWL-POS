@@ -5,30 +5,39 @@ namespace App\Http\Controllers;
 use App\Models\LevelModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\DataTables\LevelDataTable;
+use App\Http\Requests\StoreLevelRequest;
+use Illuminate\Http\RedirectResponse;
 
 class LevelController extends Controller
 {
-    public function index()
+    public function index(LevelDataTable $dataTable)
     {
-        $data = LevelModel::all();
-        return view('level', ['data' => $data]);
+        return $dataTable->render('level.level');
     }
 
-    public function tambah_simpan(Request $request)
+    public function tambah()
     {
+        return view('level.level_tambah');
+    }
+
+    public function tambah_simpan(StoreLevelRequest $request): RedirectResponse
+    {
+        $validated = $request->validated();
+
+        // Data sudah divalidasi oleh StoreLevelRequest
         LevelModel::create([
-            'level_kode' => $request->level_kode,
-            'level_nama' => $request->level_nama,
-            'description' => $request->description
+            'level_kode' => $validated['level_kode'],
+            'level_nama' => $validated['level_nama'],
         ]);
 
-        return redirect('/level');
+        return redirect('/level')->with('success', 'Level berhasil ditambahkan.');
     }
 
     public function ubah($id)
     {
         $level = LevelModel::find($id);
-        return view('level_ubah', ['data' => $level]);
+        return view('level.level_ubah', ['data' => $level]);
     }
 
     public function ubah_simpan($id, Request $request)
@@ -36,7 +45,6 @@ class LevelController extends Controller
         $level = LevelModel::find($id);
         $level->level_kode = $request->level_kode;
         $level->level_nama = $request->level_nama;
-        $level->description = $request->description;
         $level->save();
 
         return redirect('/level');
