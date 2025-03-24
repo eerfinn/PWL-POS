@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\POSController;
+use App\Http\Controllers\WelcomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,10 +19,6 @@ use App\Http\Controllers\POSController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-Route::get('/', function () {
-    return view('welcome');
-});
 
 Route::get('/kategori', [KategoriController::class, 'index']);
 Route::post('/kategori', [KategoriController::class, 'store']);
@@ -45,3 +42,7 @@ Route::put('/level/ubah_simpan/{id}', [LevelController::class, 'ubah_simpan']);
 Route::delete('/level/hapus/{id}', [LevelController::class, 'hapus']);
 
 Route::resource('m_user', POSController::class);
+
+// ---------------------------------------------------------------------- //
+
+Route::get('/', [WelcomeController::class, 'index']);
