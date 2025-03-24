@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\POSController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,3 +43,5 @@ Route::post('/level/tambah_simpan', [LevelController::class, 'tambah_simpan']);
 Route::get('/level/ubah/{id}', [LevelController::class, 'ubah']);
 Route::put('/level/ubah_simpan/{id}', [LevelController::class, 'ubah_simpan']);
 Route::delete('/level/hapus/{id}', [LevelController::class, 'hapus']);
+
+Route::resource('m_user', POSController::class);
