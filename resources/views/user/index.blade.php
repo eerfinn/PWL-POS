@@ -17,7 +17,7 @@
             @endif
             <div class="row">
                 <div class="col-md-12">
-                    <div class="form-group row">
+                    <div class="formq-group row r">
                         <label class="col-1 control-label col-form-label">Filter:</label>
                         <div class="col-3">
                             <select class="form-control" id="level_id" name="level_id" required>
@@ -29,9 +29,12 @@
                             <small class="form-text text-muted"></small>
                         </div>
                     </div>
+
                 </div>
+
             </div>
             <table class="table table-bordered table-striped table-hover table-sm" id="table_user">
+
                 <thead>
                     <tr>
                         <th>ID</th>
