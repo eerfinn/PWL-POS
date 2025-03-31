@@ -89,6 +89,7 @@
         });
     </script>
     @stack('js')
+    <!-- AdminLTE for demo purposes -->
 </body>
 
 </html>
