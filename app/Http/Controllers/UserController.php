@@ -47,7 +47,7 @@ class UserController extends Controller
             $btn .= '<form class="d-inline-block" method="POST" action="'. url('/user/'.$user->user_id).'">' 
                     . csrf_field() . method_field('DELETE') .  
                     '<button type="submit" class="btn btn-danger btn-sm" onclick="return confirm(\'Apakah Anda yakit menghapus data ini?\');">Hapus</button></form>';*/
-                $btn  = '<button onclick="modalAction(\'' . url('/user/' . $user->user_id . '/show_ajax') . '\')" class="btn btn-info btn-sm">Detail</button> ';
+                $btn  = '<button onclick="modalAction(\'' . url('/user/' . $user->user_id) . '\')" class="btn btn-info btn-sm">Detail</button> ';
                 $btn .= '<button onclick="modalAction(\'' . url('/user/' . $user->user_id . '/edit_ajax') . '\')" class="btn btn-warning btn-sm">Edit</button> ';
                 $btn .= '<button onclick="modalAction(\'' . url('/user/' . $user->user_id . '/delete_ajax') . '\')"  class="btn btn-danger btn-sm">Hapus</button> ';
 
@@ -159,6 +159,88 @@ class UserController extends Controller
         return redirect('/user')->with('success', 'User berhasil diubah.');
     }
 
+
+
+
+    public function destroy(string $id)
+    {
+        $check = UserModel::find($id);
+        if (!$check) {
+            return redirect('/user')->with('error', 'Data user tidak ditemukan.');
+        }
+
+        try {
+            UserModel::destroy($id);
+
+            return redirect('/user')->with('success', 'Data user berhasil dihapus.');
+        } catch (\Illuminate\Database\QueryException $e) {
+
+            return redirect('/user')->with('error', 'Data user gagal dihapus karena masih terdapat data lain yang terkait dengan ini.');
+        }
+    }
+
+    public function confirm_ajax(string $id)
+    {
+        $user = UserModel::find($id);
+        return view('user.confirm_ajax', ['user' => $user]);
+    }
+
+    public function delete_ajax(Request $request, $id)
+    {
+        if ($request->ajax() || $request->wantsJson()) {
+            $user = UserModel::find($id);
+            if ($user) {
+                $user->delete();
+                return response()->json([
+                    'status'  => true,
+                    'message' => 'Data berhasil dihapus'
+                ]);
+            } else {
+                return response()->json([
+                    'status'  => false,
+                    'message' => 'Data tidak ditemukan'
+                ]);
+            }
+        }
+        return redirect('/');
+    }
+
+    public function create_ajax()
+    {
+        $level = LevelModel::select('level_id', 'level_nama')->get();
+        return view('user.create_ajax')
+            ->with('level', $level);
+    }
+
+    public function store_ajax(Request $request)
+    {
+        if ($request->ajax() || $request->wantsJason()) {
+            $rules = [
+                'level_id' => 'required|integer',
+                'username' => 'required|string|min:3|unique:m_user,username',
+                'nama' => 'required|string|max:100',
+                'password' => 'required|min:5',
+            ];
+
+            $validator = Validator::make($request->all(), $rules);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Validasi gagal',
+                    'msgField' => $validator->errors(),
+                ]);
+            }
+
+            UserModel::create($request->all());
+            return response()->json([
+                'status' => true,
+                'message' => 'Data user berhasil disimpan',
+            ]);
+        }
+        redirect('/');
+    }
+
     public function update_ajax(Request $request, $id)
     {
         // cek apakah request dari ajax
@@ -200,59 +282,5 @@ class UserController extends Controller
             }
         }
         return redirect('/');
-    }
-
-
-    public function destroy(string $id)
-    {
-        $check = UserModel::find($id);
-        if (!$check) {
-            return redirect('/user')->with('error', 'Data user tidak ditemukan.');
-        }
-
-        try {
-            UserModel::destroy($id);
-
-            return redirect('/user')->with('success', 'Data user berhasil dihapus.');
-        } catch (\Illuminate\Database\QueryException $e) {
-
-            return redirect('/user')->with('error', 'Data user gagal dihapus karena masih terdapat data lain yang terkait dengan ini.');
-        }
-    }
-
-    public function create_ajax()
-    {
-        $level = LevelModel::select('level_id', 'level_nama')->get();
-        return view('user.create_ajax')
-            ->with('level', $level);
-    }
-
-    public function store_ajax(Request $request)
-    {
-        if ($request->ajax() || $request->wantsJason()) {
-            $rules = [
-                'level_id' => 'required|integer',
-                'username' => 'required|string|min:3|unique:m_user,username',
-                'nama' => 'required|string|max:100',
-                'password' => 'required|min:5',
-            ];
-
-            $validator = Validator::make($request->all(), $rules);
-
-            if ($validator->fails()) {
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Validasi gagal',
-                    'msgField' => $validator->errors(),
-                ]);
-            }
-
-            UserModel::create($request->all());
-            return response()->json([
-                'status' => true,
-                'message' => 'Data user berhasil disimpan',
-            ]);
-        }
-        redirect('/');
     }
 }
