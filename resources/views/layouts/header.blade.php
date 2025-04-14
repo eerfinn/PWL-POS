@@ -48,7 +48,7 @@
                 <a href="#" class="dropdown-item">
                     <!-- Message Start -->
                     <div class="media">
-                        <img src="../../dist/img/user1-128x128.jpg" alt="User Avatar"
+                        <img src="{{asset('adminlte/dist/img/user1-128x128.jpg')}}" alt="User Avatar"
                             class="img-size-50 mr-3 img-circle">
                         <div class="media-body">
                             <h3 class="dropdown-item-title">
@@ -65,7 +65,7 @@
                 <a href="#" class="dropdown-item">
                     <!-- Message Start -->
                     <div class="media">
-                        <img src="../../dist/img/user8-128x128.jpg" alt="User Avatar"
+                        <img src="{{asset('adminlte/dist/img/user8-128x128.jpg')}}" alt="User Avatar"
                             class="img-size-50 img-circle mr-3">
                         <div class="media-body">
                             <h3 class="dropdown-item-title">
@@ -82,7 +82,7 @@
                 <a href="#" class="dropdown-item">
                     <!-- Message Start -->
                     <div class="media">
-                        <img src="../../dist/img/user3-128x128.jpg" alt="User Avatar"
+                        <img src="{{asset('adminlte/dist/img/user3-128x128.jpg')}}" alt="User Avatar"
                             class="img-size-50 img-circle mr-3">
                         <div class="media-body">
                             <h3 class="dropdown-item-title">
@@ -134,6 +134,11 @@
         <li class="nav-item">
             <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
                 <i class="fas fa-th-large"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url('/logout') }}" role="button"">
+                <i class="fas fa-sign-out-alt"></i> Logout
             </a>
         </li>
     </ul>
