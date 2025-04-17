@@ -18,7 +18,7 @@ Route::get('logout', [AuthController::class, 'logout'])->middleware('auth');
 Route::middleware(['auth'])->group(function () {
     Route::get('/', [WelcomeController::class, 'index']);
 
-    Route::middleware(['authorize:ADM'])->prefix('level')->group(function () {
+    Route::middleware(['authorize:ADM,MNG'])->prefix('level')->group(function () {
         Route::get('/', [LevelController::class, 'index']);
         Route::post('/list', [LevelController::class, 'list']);
         Route::get('/create', [LevelController::class, 'create']);
@@ -35,7 +35,7 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('/{id}', [LevelController::class, 'destroy']);
     });
 
-    Route::middleware(['authorize:ADM'])->prefix('user')->group(function () {
+    Route::middleware(['authorize:ADM,MNG'])->prefix('user')->group(function () {
         Route::get('/', [UserController::class, 'index']);
         Route::post('/list', [UserController::class, 'list']);
         Route::get('/create', [UserController::class, 'create']);
