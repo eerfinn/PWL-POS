@@ -54,6 +54,9 @@
                                 <input type="checkbox" id="remember"><label for="remember">Remember Me</label>
                             </div>
                         </div>
+                        <div class="col-8">
+                            <a href="{{ url('register') }}">Belum punya akun? Daftar di sini</a>
+                        </div>
                         <!-- /.col -->
                         <div class="col-4">
                             <button type="submit" class="btn btn-primary btn-block">Sign In</button>
