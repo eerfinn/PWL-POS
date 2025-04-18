@@ -30,7 +30,14 @@ class BarangController extends Controller
 
     public function list(Request $request)
     {
-        $barang = BarangModel::select('barang_id', 'kategori_id', 'barang_kode', 'barang_nama', 'harga_beli', 'harga_jual')
+        $barang = BarangModel::select(
+                'm_barang.barang_id',
+                'm_barang.kategori_id',
+                'm_barang.barang_kode',
+                'm_barang.barang_nama',
+                'm_barang.harga_beli',
+                'm_barang.harga_jual'
+            )
             ->with('kategori');
 
         return DataTables::of($barang)
@@ -263,11 +270,18 @@ class BarangController extends Controller
         if ($request->ajax() || $request->wantsJson()) {
             $barang = BarangModel::find($id);
             if ($barang) {
-                $barang->delete();
-                return response()->json([
-                    'status' => true,
-                    'message' => 'Data berhasil dihapus'
-                ]);
+                try {
+                    $barang->delete();
+                    return response()->json([
+                        'status' => true,
+                        'message' => 'Data berhasil dihapus'
+                    ]);
+                } catch (\Illuminate\Database\QueryException $e) {
+                    return response()->json([
+                        'status' => false,
+                        'message' => 'Data gagal dihapus karena masih terdapat data lain yang terkait.'
+                    ]);
+                }
             } else {
                 return response()->json([
                     'status' => false,
