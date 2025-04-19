@@ -31,13 +31,13 @@ class BarangController extends Controller
     public function list(Request $request)
     {
         $barang = BarangModel::select(
-                'm_barang.barang_id',
-                'm_barang.kategori_id',
-                'm_barang.barang_kode',
-                'm_barang.barang_nama',
-                'm_barang.harga_beli',
-                'm_barang.harga_jual'
-            )
+            'm_barang.barang_id',
+            'm_barang.kategori_id',
+            'm_barang.barang_kode',
+            'm_barang.barang_nama',
+            'm_barang.harga_beli',
+            'm_barang.harga_jual'
+        )
             ->with('kategori');
 
         return DataTables::of($barang)
