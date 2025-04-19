@@ -190,14 +190,21 @@ class UserController extends Controller
         if ($request->ajax() || $request->wantsJson()) {
             $user = UserModel::find($id);
             if ($user) {
-                $user->delete();
-                return response()->json([
-                    'status'  => true,
-                    'message' => 'Data berhasil dihapus'
-                ]);
+                try {
+                    $user->delete();
+                    return response()->json([
+                        'status' => true,
+                        'message' => 'Data berhasil dihapus'
+                    ]);
+                } catch (\Illuminate\Database\QueryException $e) {
+                    return response()->json([
+                        'status' => false,
+                        'message' => 'Data gagal dihapus karena masih terdapat data lain yang terkait.'
+                    ]);
+                }
             } else {
                 return response()->json([
-                    'status'  => false,
+                    'status' => false,
                     'message' => 'Data tidak ditemukan'
                 ]);
             }
