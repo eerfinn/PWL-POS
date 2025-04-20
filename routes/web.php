@@ -20,6 +20,10 @@ Route::post('register', [AuthController::class, 'postRegister']);
 Route::middleware(['auth'])->group(function () {
     Route::get('/', [WelcomeController::class, 'index']);
 
+    // Profile routes
+    Route::get('/profile', [UserController::class, 'profile']);
+    Route::post('/user/update_profile', [UserController::class, 'update_profile']);
+
     Route::middleware(['authorize:ADM,MNG'])->prefix('level')->group(function () {
         Route::get('/', [LevelController::class, 'index']);
         Route::post('/list', [LevelController::class, 'list']);

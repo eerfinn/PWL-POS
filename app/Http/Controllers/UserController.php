@@ -11,6 +11,7 @@ use App\Models\LevelModel;
 use Illuminate\Support\Facades\Validator;
 use Barryvdh\DomPDF\Facade\Pdf;
 use PhpOffice\PhpSpreadsheet\IOFactory;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -415,5 +416,70 @@ class UserController extends Controller
         $pdf->render();
 
         return $pdf->stream('Data User ' . date('Y-m-d H-i-s') . '.pdf');
+    }
+
+    public function profile()
+    {
+        $breadcrumb = (object) [
+            'title' => 'Profile',
+            'list' => ['Home', 'Profile']
+        ];
+
+        $page = (object) [
+            'title' => 'Update Profile'
+        ];
+
+        $user = auth()->user();
+        $activeMenu = 'profile';
+
+        return view('user.profile', [
+            'breadcrumb' => $breadcrumb,
+            'page' => $page,
+            'user' => $user,
+            'activeMenu' => $activeMenu
+        ]);
+    }
+
+    public function update_profile(Request $request)
+    {
+        $user = auth()->user();
+        
+        $rules = [
+            'nama' => 'required|string|max:255',
+            'password' => 'nullable|min:6|confirmed',
+            'foto_profil' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $data = [
+            'nama' => $request->nama
+        ];
+
+        // Handle password update
+        if ($request->filled('password')) {
+            $data['password'] = Hash::make($request->password);
+        }
+
+        // Handle file upload
+        if ($request->hasFile('foto_profil')) {
+            // Delete old file if exists
+            if ($user->foto_profil) {
+                Storage::disk('public')->delete($user->foto_profil);
+            }
+
+            // Store new file
+            $path = $request->file('foto_profil')->store('profile-photos', 'public');
+            $data['foto_profil'] = $path;
+        }
+
+        UserModel::where('user_id', $user->user_id)->update($data);
+
+        return redirect()->back()->with('success', 'Profile berhasil diupdate');
     }
 }

@@ -136,10 +136,34 @@
                 <i class="fas fa-th-large"></i>
             </a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{{ url('/logout') }}" role="button"">
-                <i class="fas fa-sign-out-alt"></i> Logout
+        <li class="nav-item dropdown user-menu">
+            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+                @if (auth()->user()->foto_profil)
+                    <img src="{{ asset('storage/' . auth()->user()->foto_profil) }}" class="user-image img-circle elevation-2" alt="User Image">
+                @else
+                    <img src="{{ asset('adminlte/dist/img/user2-160x160.jpg') }}" class="user-image img-circle elevation-2" alt="User Image">
+                @endif
+                <span class="d-none d-md-inline">{{ auth()->user()->nama }}</span>
             </a>
+            <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                <!-- User image -->
+                <li class="user-header bg-primary">
+                    @if (auth()->user()->foto_profil)
+                        <img src="{{ asset('storage/' . auth()->user()->foto_profil) }}" class="img-circle elevation-2" alt="User Image">
+                    @else
+                        <img src="{{ asset('adminlte/dist/img/user2-160x160.jpg') }}" class="img-circle elevation-2" alt="User Image">
+                    @endif
+                    <p>
+                        {{ auth()->user()->nama }}
+                        <small>{{ auth()->user()->level->level_nama }}</small>
+                    </p>
+                </li>
+                <!-- Menu Footer-->
+                <li class="user-footer">
+                    <a href="{{ url('/profile') }}" class="btn btn-default btn-flat">Profile</a>
+                    <a href="{{ url('/logout') }}" class="btn btn-default btn-flat float-right">Sign out</a>
+                </li>
+            </ul>
         </li>
     </ul>
 </nav>
