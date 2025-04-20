@@ -31,11 +31,19 @@ class BarangController extends Controller
 
     public function list(Request $request)
     {
-        $barang = BarangModel::select('barang_id', 'barang_kode', 'barang_nama', 'harga_beli', 'harga_jual', 'kategori_id')->with('kategori');
+        $barang = BarangModel::select(
+            'm_barang.barang_id',
+            'm_barang.barang_kode',
+            'm_barang.barang_nama',
+            'm_barang.harga_beli',
+            'm_barang.harga_jual',
+            'm_barang.kategori_id'
+        )
+        ->with('kategori');
 
         $kategori_id = $request->input('filter_kategori');
         if (!empty($kategori_id)) {
-            $barang->where('kategori_id', $kategori_id);
+            $barang->where('m_barang.kategori_id', $kategori_id);
         }
 
         return DataTables::of($barang)

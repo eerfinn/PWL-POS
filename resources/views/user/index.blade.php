@@ -5,9 +5,10 @@
         <div class="card-header">
             <h3 class="card-title">{{ $page->title }}</h3>
             <div class="card-tools">
-                <a class="btn btn-sm btn-primary mt-1" href="{{ url('user/create') }}">Tambah</a>
-                <button onclick="modalAction('{{ url('user/create_ajax') }}')" class="btn btn-sm btn-success mt-1">Tambah
-                    Ajax</button>
+                <button onclick="modalAction('{{ url('/user/import') }}')" class="btn btn-info">Import User</button>
+                <a href="{{ url('/user/export_excel') }}" class="btn btn-primary"><i class="fa fa-file-excel"></i> Export User (excel)</a>
+                <a href="{{ url('/user/export_pdf') }}" class="btn btn-warning" target="_blank"><i class="fa fa-file-pdf"></i> Export User (pdf)</a>
+                <button onclick="modalAction('{{ url('/user/create_ajax') }}')" class="btn btn-success">Tambah Data (Ajax)</button>
             </div>
         </div>
         <div class="card-body">
@@ -31,12 +32,9 @@
                             <small class="form-text text-muted"></small>
                         </div>
                     </div>
-
                 </div>
-
             </div>
             <table class="table table-bordered table-striped table-hover table-sm" id="table_user">
-
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -67,7 +65,6 @@
         var dataUser;
         $(document).ready(function() {
             dataUser = $('#table_user').DataTable({
-                //processing: true,
                 serverSide: true,
                 ajax: {
                     url: "{{ url('user/list') }}",
@@ -78,31 +75,31 @@
                     }
                 },
                 columns: [{
-                        data: "DT_RowIndex", // Kolom nomor urut
+                        data: "DT_RowIndex",
                         className: "text-center",
                         orderable: false,
                         searchable: false
                     },
                     {
-                        data: "username", // Kolom username
+                        data: "username",
                         className: "",
                         orderable: true,
                         searchable: true
                     },
                     {
-                        data: "nama", // Kolom nama
+                        data: "nama",
                         className: "",
                         orderable: true,
                         searchable: true
                     },
                     {
-                        data: "level.level_nama", // Kolom level pengguna
+                        data: "level.level_nama",
                         className: "",
                         orderable: false,
                         searchable: false
                     },
                     {
-                        data: "aksi", // Kolom aksi
+                        data: "aksi",
                         className: "text-center",
                         orderable: false,
                         searchable: false
